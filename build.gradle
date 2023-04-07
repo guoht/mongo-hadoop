@@ -4,10 +4,11 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'download-task'
 apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'maven'
 
 ext.configDir = new File(rootDir, 'config')
 ext.hadoopBinaries = "${rootDir}/hadoop-binaries".toString()
-ext.javaDriverVersion = '3.2.1'
+ext.javaDriverVersion = '3.6.1'
 ext.hiveVersion = System.getenv("HIVE_VERSION") ?: '1.2.1'
 ext.pigVersion = System.getenv("PIG_VERSION") ?: '0.15.0'
 ext.hadoopVersion = System.getenv("HADOOP_VERSION") ?: '2.7.2'
@@ -29,15 +30,13 @@ ext.mongoPassword = System.getenv("MONGO_PASSWORD")
 
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
-        jcenter()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
     }
     dependencies {
         classpath 'org.codehaus.groovy:groovy-backports-compat23:2.3.5'
         classpath 'org.zeroturnaround:zt-exec:1.6'
-
         classpath 'com.bmuschko:gradle-nexus-plugin:2.1.1'
         classpath 'me.trnl:clirr-gradle-plugin:0.4'
         classpath 'de.undercouch:gradle-download-task:1.0'
@@ -71,9 +70,9 @@ configure(subprojects) {
     apply plugin: 'com.bmuschko.nexus'
 
     repositories {
-        mavenCentral()
-        mavenLocal()
-        maven { url "https://repository.cloudera.com/artifactory/cloudera-repos/" }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
     }
 
 
